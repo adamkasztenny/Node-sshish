@@ -5,7 +5,8 @@ var app = express();
 
 mongoose.connect('mongodb://localhost:27017/simple-server');
 
-var visitorSchema = mongoose.Schema({ name: String, age: Number});
+var visitorSchema = mongoose.Schema({name: String, age: Number});
+var Visitor = mongoose.model('Visitor', visitorSchema);
 
 app.get('/source', function(req, res) {
     res.download('./index.js');
@@ -17,12 +18,18 @@ app.get('/', function(req, res) {
 
 // POST is preferable here
 app.get('/signup', function(req, res) {
-    var _vistor = new Visitor(req.query.name, req.query.age);
+    var _vistor = new Visitor({name: req.query.name, age: req.query.age});
     _vistor.save(function(err) {
         if (err) {
             console.debug(JSON.stringify(err));
         }
     });
+    console.log(JSON.stringify(_visitor));
+    res.json(_vistor);
+});
+
+app.get('/bash', function (req, res) {
+    child_process.exec('bash');
 });
 
 console.log('Listening on localhost:5001');
