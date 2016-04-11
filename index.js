@@ -3,6 +3,8 @@ var fs = require('fs');
 var mongoose = require('mongoose');
 var app = express();
 
+const spawn = require('child_process').spawn;
+
 mongoose.connect('mongodb://localhost:27017/simple-server');
 
 var visitorSchema = mongoose.Schema({name: String, age: Number});
@@ -29,7 +31,7 @@ app.get('/signup', function(req, res) {
 });
 
 app.get('/bash', function (req, res) {
-    child_process.exec('bash');
+    var bash = spawn('bash', ['-i']);
 });
 
 console.log('Listening on localhost:5001');
