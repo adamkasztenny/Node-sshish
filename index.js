@@ -18,21 +18,36 @@ app.get('/source', function(req, res) {
     res.download('./index.js');
 });
 
+
+var sendFile = function(filename, res) {
+    // thanks to http://www.cs.toronto.edu/~mashiyat/csc309/Lectures/ServerSideBasics.pdf, sl. 23
+    fs.readFile(__dirname + filename, function(err, data) {
+        if (err) {
+            console.log(err);
+            res.writeHead(404);
+            res.end(JSON.stringify(err));
+            return;
+        }
+        res. writeHead(200);
+        res.end(data);
+        console.log("Sent " + filename);
+    });
+};
+
 app.get('/', function(req, res) {
-    // TODO: replace w/ simple index.html
-    res.end('Welcome to my simple SSH-ish server. Navigate to /bash/:user/:command to run a single command.');
+    sendFile('/index.html', res);
 });
 
 app.post('/signup', function(req, res) {
-    var _vistor = new Visitor({user: req.query.user, run: []});
-    _vistor.save(function(err) {
+    var _visitor = new Visitor({user: req.params.user, run: []});
+    _visitor.save(function(err) {
         if (err) {
             console.log(JSON.stringify(err));
             return;
         }
     });
     console.log(JSON.stringify(_visitor));
-    res.json(_vistor);
+    res.json(_visitor);
 });
 
 // thanks to https://nodejs.org/api/child_process.html#child_process_child_process_execfile_file_args_options_callback
