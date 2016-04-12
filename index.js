@@ -23,8 +23,7 @@ app.get('/', function(req, res) {
     res.end('Welcome to my simple SSH-ish server. Navigate to /bash/:user/:command to run a single command.');
 });
 
-// POST is preferable here
-app.get('/signup', function(req, res) {
+app.post('/signup', function(req, res) {
     var _vistor = new Visitor({user: req.query.user, run: []});
     _vistor.save(function(err) {
         if (err) {
@@ -37,7 +36,7 @@ app.get('/signup', function(req, res) {
 });
 
 // thanks to https://nodejs.org/api/child_process.html#child_process_child_process_execfile_file_args_options_callback
-app.get('/bash/:user/:command', function (req, res) {
+app.post('/bash/:user/:command', function (req, res) {
     var command = req.params.command;
     var user = req.params.user;
 
@@ -73,7 +72,7 @@ app.get('/bash/:user/:command', function (req, res) {
     });
 });
 
-app.get('/bash/:user/cd/:dir', function(req, res) {
+app.post('/bash/:user/cd/:dir', function(req, res) {
     var user = req.params.user;
     users[user] = req.params.dir;
     console.log(user + " changed their working directory to " + req.params.dir);
