@@ -15,13 +15,45 @@
         </script>
         
         <script>
+            $(document).ready(function() {
+                var user;
 
+                $('#submitName').click(function() {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/signup/' + $('#user').val()}).done(function(data){
+                        user = $('#user').val();
+                        $('#console').append('<p>' + JSON.stringify(data) + '</p>');
+                        $('#signup').hide();
+                        $('#type').show();
+                    });
+                });
+
+                $('#submitCommand').click(function() {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/bash/' + user + '/' + $('#command').val()}).done(function(data){
+                        var display = data.replace(/\n/g, '<br />');
+                        $('#console').append('<p>' + display + '</p>');
+                    });
+                });
+            });
         </script>
     </head>
     <body>
+        
+        <div id="console">
+        </div>
+
         <div id="signup"> 
-            Enter your name: <input type="text" name="user" />
+            Enter your name: <input type="text" id="user" />
             <button id="submitName">Start fake SSH session </button>
-       </div>
+        </div>
+
+        <div id="type" hidden> 
+            $ <input type="text" id="command" />
+            <button id="submitCommand">Enter</button>
+        </div>
+
    </body>
 </html> 

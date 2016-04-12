@@ -38,7 +38,7 @@ app.get('/', function(req, res) {
     sendFile('/index.html', res);
 });
 
-app.post('/signup', function(req, res) {
+app.post('/signup/:user', function(req, res) {
     var _visitor = new Visitor({user: req.params.user, run: []});
     _visitor.save(function(err) {
         if (err) {
