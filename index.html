@@ -37,6 +37,8 @@
                             url: '/bash/' + user + '/' + $('#command').val()}).done(function(data){
                             var display = data.replace(/\n/g, '<br />');
                             $('#console').append('<p>' + display + '</p>');
+                            // nice hack from http://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page, thanks
+                            window.scrollTo(0,document.body.scrollHeight);
                         });
                     }
 
