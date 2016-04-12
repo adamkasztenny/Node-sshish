@@ -12,6 +12,7 @@ var visitorSchema = mongoose.Schema({user: {type: String, unique: true}, run: Ar
 var Visitor = mongoose.model('Visitor', visitorSchema);
 
 var currentUsers = [];
+var users = [];
 
 app.get('/source', function(req, res) {
     res.download('./index.js');
@@ -39,7 +40,14 @@ app.get('/signup', function(req, res) {
 app.get('/bash/:user/:command', function (req, res) {
     var command = req.params.command;
     var user = req.params.user;
-    var child = exec(command, (error, stdout, stderr) => {
+
+    var options = {};
+
+    if (users[user]) {
+        options = {cwd: users[user]};
+    }
+
+    var child = exec(command, options, (error, stdout, stderr) => {
         res.json(stdout);
         
         if (error) {
@@ -65,36 +73,12 @@ app.get('/bash/:user/:command', function (req, res) {
     });
 });
 
-
-app.get('/bash/:user', function(req, res) {
+app.get('/bash/:user/cd/:dir', function(req, res) {
     var user = req.params.user;
-
-    if (currentUsers.indexOf(user) == -1) {
-        currentUsers.push(user);
-        console.log(user + " just spun up a bash session");
-
-        var bash = spawn('bash', ['-i']);
-
-        bash.stdout.on('data', (data) => {
-            res.json(data.toString());
-        });
-
-        app.get('/session/:user/:command', function (req2, res2) {
-            var command = req2.params.command;
-            var userAuth = req2.params.user;
-            if (userAuth == user) {
-                bash.stdin.write(command);
-                console.log(userAuth + " ran " + command + " on their bash session");
-                bash.stdin.end();
-            } 
-        });
-    }
-
-    else {
-        res.end();
-    }
+    users[user] = req.params.dir;
+    console.log(user + " changed their working directory to " + req.params.dir);
+    res.end();
 });
-
 
 console.log('Listening on localhost:5001');
 app.listen(5001);
