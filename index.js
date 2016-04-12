@@ -91,7 +91,7 @@ app.post('/bash/:user/cd/:dir', function(req, res) {
     var user = req.params.user;
     users[user] = req.params.dir;
     console.log(user + " changed their working directory to " + req.params.dir);
-    res.end();
+    res.json(req.params.dir);
 });
 
 console.log('Listening on localhost:5001');

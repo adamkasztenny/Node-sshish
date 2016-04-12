@@ -30,12 +30,24 @@
                 });
 
                 $('#submitCommand').click(function() {
-                    $.ajax({
-                        method: 'POST',
-                        url: '/bash/' + user + '/' + $('#command').val()}).done(function(data){
-                        var display = data.replace(/\n/g, '<br />');
-                        $('#console').append('<p>' + display + '</p>');
-                    });
+
+                    if ($('#command').val().substr(0,2) != 'cd') {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/bash/' + user + '/' + $('#command').val()}).done(function(data){
+                            var display = data.replace(/\n/g, '<br />');
+                            $('#console').append('<p>' + display + '</p>');
+                        });
+                    }
+
+                    else {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/bash/' + user + '/cd/' + $('#command').val().replace(/cd/g, '')}).done(function(data){
+                            var display = data.replace(/\n/g, '<br />');
+                            $('#wd').html('$' + display);
+                        });
+                    }
                 });
             });
         </script>
@@ -51,7 +63,7 @@
         </div>
 
         <div id="type" hidden> 
-            $ <input type="text" id="command" />
+            <span id="wd">$</span> <input type="text" id="command" />
             <button id="submitCommand">Enter</button>
         </div>
 
