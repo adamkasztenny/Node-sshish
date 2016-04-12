@@ -62,7 +62,13 @@ app.post('/bash/:user/:command', function (req, res) {
     }
 
     var child = exec(command, options, (error, stdout, stderr) => {
-        res.json(stdout);
+        if (stdout) {
+            res.json(stdout);
+        }
+
+        else if (stderr) {
+            res.json(stderr);
+        }
         
         if (error) {
             console.log(error);
