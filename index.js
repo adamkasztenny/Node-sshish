@@ -55,7 +55,7 @@ app.post('/bash/:user/:command', function (req, res) {
     var command = req.params.command;
     var user = req.params.user;
 
-    var options = {};
+    var options = {cwd: '/home'};
 
     if (users[user]) {
         options = {cwd: users[user]};
@@ -89,9 +89,14 @@ app.post('/bash/:user/:command', function (req, res) {
 
 app.post('/bash/:user/cd/:dir', function(req, res) {
     var user = req.params.user;
-    users[user] = req.params.dir;
-    console.log(user + " changed their working directory to " + req.params.dir);
-    res.json(req.params.dir);
+
+    if (users[user] == undefined) {
+        users[user] = '/home';
+    }
+
+    users[user] = users[user] + '/' + req.params.dir.replace(/\s/g, '');
+    console.log(user + " changed their working directory to " + users[user]);
+    res.json(users[user]);
 });
 
 console.log('Listening on localhost:5001');
