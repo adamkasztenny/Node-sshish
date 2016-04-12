@@ -41,6 +41,11 @@
                 $('#type').on('submit', function() {
                     $('#console').append('<p> $ ' + $('#command').val() +'</p>');
                     if ($('#command').val().substr(0,2) != 'cd') {
+                        if (('#command').val == "exit") {
+                            window.location.assign("about:home");
+                            location.reload();
+                            return;
+                        }
                         $.ajax({
                             method: 'POST',
                             url: '/bash/' + user + '/' + $('#command').val()}).done(function(data){
@@ -76,7 +81,7 @@
         </div>
 
         <form action="#" id="type" hidden> 
-            <span id="wd">$</span> <input type="text" id="command" />
+            <span id="wd">$</span> <input size="125px" type="text" id="command" />
         </form>
 
    </body>

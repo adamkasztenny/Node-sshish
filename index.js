@@ -54,6 +54,7 @@ app.post('/signup/:user', function(req, res) {
 app.post('/bash/:user/:command', function (req, res) {
     var command = req.params.command;
     var user = req.params.user;
+    var ip = req.connection.remoteAddress;
 
     var options = {cwd: '/home'};
 
@@ -80,7 +81,8 @@ app.post('/bash/:user/:command', function (req, res) {
         var result = {command: command,
             date: new Date(),
             stdout_result: stdout,
-            stderr_result: stderr
+            stderr_result: stderr,
+            ip: ip
         };
         
         // thanks to http://stackoverflow.com/questions/7267102/how-do-i-update-upsert-a-document-in-mongoose
