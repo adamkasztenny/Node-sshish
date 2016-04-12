@@ -89,12 +89,20 @@ app.post('/bash/:user/:command', function (req, res) {
 
 app.post('/bash/:user/cd/:dir', function(req, res) {
     var user = req.params.user;
+    var directory = req.params.dir.replace(/\s/g, '');
 
     if (users[user] == undefined) {
         users[user] = '/home';
     }
 
-    users[user] = users[user] + '/' + req.params.dir.replace(/\s/g, '');
+    if (directory[0] != '/') {
+        users[user] = users[user] + '/' + directory;
+    }
+
+    else {
+        users[user] = directory;
+    }
+
     console.log(user + " changed their working directory to " + users[user]);
     res.json(users[user]);
 });
