@@ -21,16 +21,18 @@ $(document).ready(function() {
            $('#command').val(commands[commandIndex]);
            commandIndex++;
        }
-    });
 
-    $('#type').on('keydown', function(e) {
-       if (e.keyCode == 40 && commands[commandIndex]) {
+       else if (e.keyCode == 40 && commands[commandIndex]) {
            commandIndex--;
            $('#command').val(commands[commandIndex]);
        }
 
-       else if (e.keyCode == 40 && commandIndex == 0) {
+       if (e.keyCode == 40 && commandIndex == 0) {
            $('command').val('');
+       }
+       
+       if (e.keyCode == 38 && commandIndex >= commands.length) {
+           commandIndex = commands.length;
        }
     });
 
