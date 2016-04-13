@@ -22,13 +22,14 @@ $(document).ready(function() {
            commandIndex++;
        }
 
-       else if (e.keyCode == 40 && commands[commandIndex]) {
-           commandIndex--;
+       if (e.keyCode == 40 && commands[commandIndex]) {
            $('#command').val(commands[commandIndex]);
+           commandIndex--;
        }
 
-       if (e.keyCode == 40 && commandIndex == 0) {
+       if (e.keyCode == 40 && commandIndex <= 0) {
            $('command').val('');
+           commandIndex = 0;
        }
        
        if (e.keyCode == 38 && commandIndex >= commands.length) {
