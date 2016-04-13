@@ -1,6 +1,7 @@
 var express = require('express');
 var fs = require('fs');
 var mongoose = require('mongoose');
+var path = require("path");
 var app = express();
 
 const spawn = require('child_process').spawn;
@@ -18,24 +19,14 @@ app.get('/source', function(req, res) {
     res.download('./index.js');
 });
 
-
-var sendFile = function(filename, res) {
-    // thanks to http://www.cs.toronto.edu/~mashiyat/csc309/Lectures/ServerSideBasics.pdf, sl. 23
-    fs.readFile(__dirname + filename, function(err, data) {
-        if (err) {
-            console.log(err);
-            res.writeHead(404);
-            res.end(JSON.stringify(err));
-            return;
-        }
-        res. writeHead(200);
-        res.end(data);
-        console.log("Sent " + filename);
-    });
-};
-
 app.get('/', function(req, res) {
-    sendFile('/index.html', res);
+    // thanks to https://codeforgeek.com/2015/01/render-html-file-expressjs/
+    res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+
+app.get('/:file', function(req, res) {
+    res.sendFile(path.join(__dirname + req.url));
 });
 
 app.post('/signup/:user', function(req, res) {
@@ -54,7 +45,7 @@ app.post('/signup/:user', function(req, res) {
 app.post('/bash/:user/:command', function (req, res) {
     var command = req.params.command;
     var user = req.params.user;
-    var ip = req.connection.remoteAddress;
+    var ip = req.connection.remoteAddress.toString();
 
     var options = {cwd: '/home'};
 

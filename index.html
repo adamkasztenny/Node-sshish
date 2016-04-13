@@ -1,74 +1,13 @@
-<html>
+<!DOCTYPE HTML>
     <head>
         <title> node-ssh-ish </title>
-        <!-- Excuse my horrible style of embedding CSS + JS in HTML -->
-        <style>
-            body {
-                background-color: black;
-                color: white;
-                font-family: monospace, fixed-width;
-            }
-
-            input {
-                background-color: black;
-                color: white;
-                border: none;
-                font-family: monospace, fixed-width;
-            }
-        </style>
+        <link href="style.css" type="text/css" rel="stylesheet" />
 
         <!-- Thanks to http://code.jquery.com/ -->
         <script src="http://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous">
         </script>
         
-        <script>
-            $(document).ready(function() {
-                var user;
-                $('#submitName').focus();
-
-                $('#submitName').click(function() {
-                    $.ajax({
-                        method: 'POST',
-                        url: '/signup/' + $('#user').val()}).done(function(data){
-                        user = $('#user').val();
-                        $('#console').append('<p>' + JSON.stringify(data) + '</p>');
-                        $('#signup').hide();
-                        $('#type').show();
-                        $('#type').focus();
-                    });
-                });
-
-                $('#type').on('submit', function() {
-                    $('#console').append('<p> $ ' + $('#command').val() +'</p>');
-                    if ($('#command').val().substr(0,2) != 'cd') {
-                        if (('#command').val == "exit") {
-                            window.location.assign("about:home");
-                            location.reload();
-                            return;
-                        }
-                        $.ajax({
-                            method: 'POST',
-                            url: '/bash/' + user + '/' + $('#command').val()}).done(function(data){
-                            var display = data.replace(/\n/g, '<br />');
-                            $('#console').append('<p>' + display + '</p>');
-                            // nice hack from http://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page, thanks
-                            window.scrollTo(0, document.body.scrollHeight);
-                        });
-                    }
-
-                    else {
-                        $.ajax({
-                            method: 'POST',
-                            url: '/bash/' + user + '/cd/' + $('#command').val().replace(/cd/g, '')}).done(function(data){
-                            var display = data.replace(/\n/g, '<br />');
-                            $('#wd').html('$' + display);
-                            window.scrollTo(0, document.body.scrollHeight);
-                        });
-                    }
-                    $('#command').val('');
-                });
-            });
-        </script>
+        <script type="text/javascript" src="ajax.js"></script>
     </head>
     <body>
         
@@ -85,4 +24,3 @@
         </form>
 
    </body>
-</html> 

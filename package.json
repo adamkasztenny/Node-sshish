@@ -1,6 +1,6 @@
 {
   "name": "node-sshish",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Simple SSH-ish sever",
   "main": "index.js",
   "scripts": {
