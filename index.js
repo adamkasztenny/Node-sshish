@@ -90,7 +90,7 @@ app.post('/bash/:user/cd/:dir', function(req, res) {
     var user = req.params.user;
     var directory = req.params.dir.replace(/\s/g, '');
 
-    if (users[user] == undefined) {
+    if (users[user] === undefined) {
         users[user] = '/home';
     }
 

@@ -59,7 +59,7 @@ $(document).ready(function() {
         else {
             $.ajax({
                 method: 'POST',
-                url: '/bash/' + user + '/cd/' + command.replace(/cd/g, '')}).done(function(data){
+                url: '/bash/' + user + '/cd/' + encodeURI(command.replace(/cd/g, ''))}).done(function(data){
                 var display = data.replace(/\n/g, '<br />');
                 $('#wd').html('$' + display);
                 window.scrollTo(0, document.body.scrollHeight);

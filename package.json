@@ -7,13 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "slideon",
-  "repository" :
-  { "type" : "git",
-    "url" : "https://github.com/slideon/Node-sshish.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/slideon/Node-sshish.git"
   },
-  "dependencies" :
-        { "express" : "*",
-          "mongoose": "*"
-        },
-  "license": "GPL-2.0"
+  "dependencies": {
+    "express": "*",
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "jshint": "^2.9.1",
+    "mongoose": "*"
+  },
+  "license": "GPL-2.0",
 }
