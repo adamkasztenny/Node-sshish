@@ -12,12 +12,15 @@
     "url": "https://github.com/slideon/Node-sshish.git"
   },
   "dependencies": {
-    "express": "*",
+    "express": "^4.13.4",
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "jshint": "^2.9.1",
-    "mongoose": "*"
+    "mongoose": "^4.4.12"
   },
   "license": "GPL-2.0",
+  "devDependencies": {
+    "grunt-run-node": "^0.1.3"
+  }
 }
