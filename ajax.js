@@ -7,9 +7,9 @@ $(document).ready(function() {
     $('#submitName').click(function() {
         $.ajax({
             method: 'POST',
+            contentType: 'multipart/form-data',
             url: '/signup/' + $('#user').val()}).done(function(data){
             user = $('#user').val();
-            $('#console').append('<p>' + JSON.stringify(data) + '</p>');
             $('#signup').hide();
             $('#type').show();
             $('#type').focus();
@@ -41,13 +41,14 @@ $(document).ready(function() {
         var command = $('#command').val();
         $('#console').append('<p> $ ' + command +'</p>');
         if (command.substr(0,2) != 'cd') {
-            if (command == "exit") {
+            if (command == "exit" || command == "quit") {
                 window.location.assign("about:home");
                 location.reload();
                 return;
             }
             $.ajax({
                 method: 'POST',
+                contentType: 'multipart/form-data',
                 url: '/bash/' + user + '/' + command}).done(function(data){
                 var display = data.replace(/\n/g, '<br />');
                 $('#console').append('<p>' + display + '</p>');
@@ -59,7 +60,7 @@ $(document).ready(function() {
         else {
             $.ajax({
                 method: 'POST',
-                url: '/bash/' + user + '/cd/' + encodeURI(command.replace(/cd/g, ''))}).done(function(data){
+                url: '/bash/' + user + '/cd' + encodeURI(command.replace(/cd/g, ''))}).done(function(data){
                 var display = data.replace(/\n/g, '<br />');
                 $('#wd').html('$' + display);
                 window.scrollTo(0, document.body.scrollHeight);
