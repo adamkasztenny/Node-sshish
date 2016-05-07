@@ -1,0 +1,9 @@
+body, input {
+    background-color: black;
+    color: white;
+    font-family: monospace, fixed-width;
+}
+
+input {
+    border: none;
+}

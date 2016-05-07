@@ -3,7 +3,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     jshint: {
-      files: ['*.js'],
+      files: ['src/*/*.js', 'src/*/*/*.js', '*.js', '*.json'],
       options: {
         esversion: 6,
         globals: {
@@ -16,7 +16,7 @@ module.exports = function(grunt) {
             options: {
                 stdio: [null, null, null ],
             },
-            files: { src: [ 'index.js'] }
+            files: { src: [ 'src/server/index.js'] }
         }
     },
     watch: {
