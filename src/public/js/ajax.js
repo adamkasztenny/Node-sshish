@@ -1,3 +1,6 @@
+const UP_ARROW = 38;
+const DOWN_ARROW = 40;
+
 $(document).ready(function() {
     var user;
     var commands = [];
@@ -17,23 +20,27 @@ $(document).ready(function() {
     });
 
     $('#type').on('keyup', function(e) {
-       if (e.keyCode == 38 && commands[commandIndex]) {
+       if (e.keyCode == UP_ARROW && commands[commandIndex] && commandIndex < commands.length) {
            $('#command').val(commands[commandIndex]);
            commandIndex++;
+           e.preventDefault();
        }
 
-       if (e.keyCode == 40 && commands[commandIndex]) {
+       if (e.keyCode == DOWN_ARROW && commands[commandIndex]) {
            $('#command').val(commands[commandIndex]);
            commandIndex--;
+           e.preventDefault();
        }
 
-       if (e.keyCode == 40 && commandIndex <= 0) {
-           $('command').val('');
+       if (e.keyCode == DOWN_ARROW && commandIndex <= 0) {
+           $('#command').val('');
            commandIndex = 0;
+           e.preventDefault();
        }
        
-       if (e.keyCode == 38 && commandIndex >= commands.length) {
-           commandIndex = commands.length;
+       if (e.keyCode == UP_ARROW && commandIndex >= commands.length) {
+           commandIndex = commands.length - 1;
+           e.preventDefault();
        }
     });
 
