@@ -3,7 +3,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     jshint: {
-      files: ['src/*/*.js', 'src/*/*/*.js', '*.js', '*.json'],
+      files: ['src/*/*.js', 'src/*/*/*.js', '*.js', '*.json', 'test/*.js', 'test/*/*.js'],
       options: {
         esversion: 6,
         globals: {
@@ -11,12 +11,11 @@ module.exports = function(grunt) {
         }
       }
     },
-    run_node: { // thanks to https://github.com/jamesdbloom/grunt-run-node
-        start: {
-            options: {
-                stdio: [null, null, null ],
-            },
-            files: { src: [ 'src/server/index.js'] }
+    run: { // thanks to https://www.npmjs.com/package/grunt-run
+        server: {
+            args: [
+                'src/server/index.js'
+            ]
         }
     },
     watch: {
@@ -27,8 +26,8 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-run-node');
+  grunt.loadNpmTasks('grunt-run');
 
-  grunt.registerTask('default', ['jshint', 'run_node']);
+  grunt.registerTask('default', ['jshint', 'run']);
 
 };
