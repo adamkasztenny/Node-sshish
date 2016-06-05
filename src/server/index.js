@@ -4,6 +4,10 @@ var mongoose = require('mongoose');
 var path = require("path");
 var app = express();
 
+var loggingSetup = require('./logging.js');
+loggingSetup.setup();
+var logger = loggingSetup.logger;
+
 const spawn = require('child_process').spawn;
 const exec = require('child_process').exec;
 
@@ -26,7 +30,7 @@ app.get('/', function(req, res) {
 
 
 app.get('/:folder/:file', function(req, res) {
-    console.log('Sending ' + path.join(__dirname + '/../public' + req.url));
+    logger.info('Sending ' + path.join(__dirname + '/../public' + req.url));
     res.sendFile(path.join(__dirname + '/../public' + req.url));
 });
 
@@ -34,11 +38,11 @@ app.post('/signup/:user', function(req, res) {
     var _visitor = new Visitor({user: req.params.user, run: []});
     _visitor.save(function(err) {
         if (err) {
-            console.log(JSON.stringify(err));
+            logger.info(JSON.stringify(err));
             return;
         }
     });
-    console.log(JSON.stringify(_visitor));
+    logger.info(JSON.stringify(_visitor));
     res.json(_visitor);
 });
 
@@ -64,11 +68,11 @@ app.post('/bash/:user/:command', function (req, res) {
         }
         
         if (error) {
-            console.log(error);
+            logger.info(error);
             return;
         }
 
-        console.log(user + " ran " + command);
+        logger.info(user + " ran " + command);
 
         var result = {command: command,
             date: new Date(),
@@ -80,7 +84,7 @@ app.post('/bash/:user/:command', function (req, res) {
         // thanks to http://stackoverflow.com/questions/7267102/how-do-i-update-upsert-a-document-in-mongoose
         Visitor.findOneAndUpdate({user: user}, {$push: {run: result}}, {upsert:true}, function (err, doc) {
             if (err) {
-                console.log(err);
+                logger.info(err);
                 return;
             }
         });
@@ -103,9 +107,9 @@ app.post('/bash/:user/cd/:dir', function(req, res) {
         users[user] = directory;
     }
 
-    console.log(user + " changed their working directory to " + users[user]);
+    logger.info(user + " changed their working directory to " + users[user]);
     res.json(users[user]);
 });
 
-console.log('Listening on localhost:5001');
+logger.info('Listening on localhost:5001');
 app.listen(5001);
