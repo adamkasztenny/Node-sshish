@@ -16,6 +16,14 @@ module.exports = function(grunt) {
             args: [
                 'src/server/index.js'
             ]
+        },
+    },
+    run_node: { // thanks to https://github.com/jamesdbloom/grunt-run-node
+        start: {
+            options: {
+                stdio: [null, null, null],
+            },
+            files: { src: [ 'src/server/index.js'] }
         }
     },
     mochaTest: { // thanks to https://www.npmjs.com/package/grunt-mocha-test
@@ -32,6 +40,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-run');
+  grunt.loadNpmTasks('grunt-run-node');
   grunt.loadNpmTasks('grunt-mocha-test');
 
   grunt.registerTask('default', ['jshint', 'run']);
