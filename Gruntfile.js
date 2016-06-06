@@ -31,6 +31,13 @@ module.exports = function(grunt) {
             src: ['test/*.js'] 
          }
     },
+    mochacov: {
+        options: {
+        reporter: 'html-cov',
+          require: ['should']
+        },
+        all: ['./test/*.js']
+    },
     watch: {
       files: ['<%= jshint.files %>'],
       tasks: ['jshint']
@@ -42,8 +49,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-run');
   grunt.loadNpmTasks('grunt-run-node');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-mocha-cov');
 
   grunt.registerTask('default', ['jshint', 'run']);
   grunt.registerTask('test', ['jshint', 'mochaTest']);
+  grunt.registerTask('coverage', ['jshint', 'mochacov']);
 
 };
