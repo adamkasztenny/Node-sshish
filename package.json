@@ -19,10 +19,12 @@
     "jshint": "^2.9.1",
     "mocha": "^2.5.3",
     "mongoose": "^4.4.12",
+    "should": "^9.0.0",
     "winston": "^2.2.0"
   },
   "license": "GPL-2.0",
   "devDependencies": {
+    "grunt-mocha-test": "^0.12.7",
     "grunt-run": "^0.6.0"
   }
 }
